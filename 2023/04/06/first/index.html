@@ -5,7 +5,7 @@
     <meta name="viewport" content="initial-scale=1.0, width=device-width" />
     <title>
       
-        文史哲 | Hexo
+        建站小记 | Hexo
       
     </title>
     <meta name="description" content=""/>
@@ -36,7 +36,8 @@
     <link rel="stylesheet" type="text/css" href="/css/layout.css"/>
     
     
-  <link rel="stylesheet" type="text/css" href="/css/category.css" />
+  <link rel="stylesheet" type="text/css" href="/css/post.css"/>
+  
 
   <meta name="generator" content="Hexo 6.3.0"></head>
   <body>
@@ -49,11 +50,11 @@
         <div class="nav-menu">
           
             
-              <a class="nav-menu-item" href="/page1">极客站</a>
+              <a class="nav-menu-item" href="/cs">极客站</a>
             
-              <a class="nav-menu-item" href="/page2">黑客站</a>
+              <a class="nav-menu-item" href="/hacker">黑客站</a>
             
-              <a class="nav-menu-item" href="/page3">文史哲</a>
+              <a class="nav-menu-item" href="/my%20love">文史哲</a>
             
           
         </div>
@@ -62,54 +63,66 @@
     </div>
     <div class="body">
       
-  <div class="wall wall-category">
-    <div class="wall-main">
-      <div class="wall-category-title">
-        <div class="title-icon"
-             style="background-image: url(/images/icon/icon-pi.svg)"></div>
-        文史哲
-      </div>
-      <div class="wall-category-description"></div>
-      <div class="wall-category-tags">
-        <script type="text/javascript" charset="utf-8" src="/js/tagcanvas.min.js"></script>
-        <script type = "text/javascript">
-          window.onload = function() {
-              try {
-                  TagCanvas.Start('tagCanvas', '', {
-                      outlineThickness: 1,
-                      maxSpeed: 0.03,
-                      // freezeActive: true,
-                      // freezeDecel: true,
-                      textColour: null,
-                      textColour: null,
-                      outlineColour: "#aaa",
-                      weight: true,
-                      padding: 4,
-                      // clickToFront: 200,
-                      fadIn: 200,
-                      // pinchZoom: true,
-                      wheelZoom: false,
-                      initial: [0.1, -0.03]
-                  });
-              } catch (e) {
-                  // something went wrong, hide the canvas container
-                  document.getElementById('tags-outer').style.display = 'none';
-              }
-          };
-        </script>
-        <div id="tags-outer">
-          <canvas width="500" height="500" id="tagCanvas">
-            
-              
-            
-          </canvas>
+  <article class="post-content">
+    <div class="post-inner">
+      <div class="post-content__head">
+        <div class="post-title">建站小记</div>
+        <div class="post-info">
+          
+  
+    <a href="/tags/%E6%96%87%E6%9C%AC/" class="post-tag">#文本</a>
+  
+
+
+          <span class="post-date">2023-04-06</span>
         </div>
       </div>
+      <div class="post-content__body">
+        
+          <div class="post-gallery">
+            
+          </div>
+        
+        <h2 id="建站原因"><a href="#建站原因" class="headerlink" title="建站原因"></a>建站原因</h2><p>在b站上看到了一个搭建个人博客网站的视频，心血来潮以及作为Geek必备的博客作为驱动力，于是查找了一些资料最终找到了以github + hexo 的方式建立博客。感谢朋友（畅姐我的神）的<del>倾情</del>推荐，给了我一个好<a target="_blank" rel="noopener" href="https://oceanwang.top/personal-website-1/">教程</a>。</p>
+<hr>
+<h2 id="曲折的建站过程"><a href="#曲折的建站过程" class="headerlink" title="曲折的建站过程"></a>曲折的建站过程</h2><p><del>说到这个，不得不吐槽一下我这令人愤怒的电脑。从我大一上学期配C语言环境开始，再到虚拟机和linux ssh远端连接，这玩意就没让我省心过。</del><br>吐槽结束，现在是问题时间。</p>
+<h3 id="一"><a href="#一" class="headerlink" title="一"></a>一</h3><p>由于初次上手个人网站搭建，所知甚少。而且最开始时，没有如此系统的教程，都是用的零七碎八的教程，难免遇到各种问题。</p>
+<ul>
+<li><p>npm node hexo 安装完成后出现类似command not found的问题，用Google搜索、在stackoverflow上找相关问题，都没能解决这个问题，最后尝试了csdn上的一个说法，即设置环境变量,在path下面加上npm node hexo等的路径，成功解决问题。<del>（多少有点zz了）</del><br>路径问题占据了我建站的绝大多数时间。</p>
+</li>
+<li><p>设置部署仓库和分支出现 “FATAL YAMLException: can not read a block mapping entry; a multiline key may not be an implicit key (107:14)” 的问题。这个问题是因我在更改hexo源码根目录下的_config.yml中的deploy部分直接复制粘贴引起的。参考下图，在repo:以及branch:的冒号后面要加上’ ‘空格。<br><img src="https://oceanwang.top/personal-website-7/9.png" alt="代码"></p>
+</li>
+<li><p>目前尚未解决的问题。GitHub Actions自动部署，按照教程上传workflow文件到github上，但是目前还没成功，也没查原因。</p>
+</li>
+</ul>
+
+      </div>
     </div>
-  </div>
-  <div class="post-list">
+  </article>
+  <div class="post__foot">
     
-      DEBUG: 该子夜分类下没有文章！在指定文章头部中添加 category: page3 字段，即可将该文章添加至此页。
+    <div class="post-nav">
+  
+    <a class="post-nav-item-left" href="/2023/04/08/hello-world/">
+      <div class="text-align">
+        <svg t="1670570876164"
+             class="icon"
+             viewBox="0 0 1024 1024"
+             width="16"
+             height="16">
+          <path d="M384 512L731.733333 202.666667c17.066667-14.933333 19.2-42.666667 4.266667-59.733334-14.933333-17.066667-42.666667-19.2-59.733333-4.266666l-384 341.333333c-10.666667 8.533333-14.933333 19.2-14.933334 32s4.266667 23.466667 14.933334 32l384 341.333333c8.533333 6.4 19.2 10.666667 27.733333 10.666667 12.8 0 23.466667-4.266667 32-14.933333 14.933333-17.066667 14.933333-44.8-4.266667-59.733334L384 512z" p-id="14596"/>
+        </svg>
+        <span class="text-small">上一篇</span>
+      </div>
+      <div>Hello World</div>
+    </a>
+  
+  <div class="vhr"></div>
+  
+    <div class="post-nav-item-right"></div>
+  
+</div>
+
     
     
   </div>
@@ -206,6 +219,7 @@
     </div>
     
     
-    
+  
+
   </body>
 </html>
