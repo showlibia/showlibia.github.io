@@ -94,6 +94,12 @@
 </li>
 <li><p>目前尚未解决的问题。GitHub Actions自动部署，按照教程上传workflow文件到github上，但是目前还没成功，也没查原因。</p>
 </li>
+<li><p>在执行hexo generate和hexo deploy命令时可能会出现kex_exchange_identification: Connection closed by remote host Connection closed by 20.205.243.166 port 22 fatal: Could not read from remote repository的错误信息，这个时候需要改变一下自己的vpn节点，或者在vpn速度较好时再重新执行hexo d的命令。</p>
+</li>
+</ul>
+<h3 id="二"><a href="#二" class="headerlink" title="二"></a>二</h3><p>建站完成之后，就是要对网站进行个性化的修改，对样式进行处理</p>
+<ul>
+<li>在文章的头部部分增加一下内容能够达到对文章进行分类的效果。<br>这些内容可以在hexo-blog\themes\hexo-theme-tranquility的_config.yml文件中找到对应的部分。<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">---</span><br><span class="line">title: #文章标题</span><br><span class="line">cover: #文章封面的图片的链接或者地址</span><br><span class="line">category: #文章在子页中的分类</span><br><span class="line">tag: </span><br><span class="line"> - #文章的标签</span><br><span class="line">id: #文章的序号</span><br><span class="line">date: #文章写作的时间</span><br><span class="line">timeline: #在时间线中的分类</span><br><span class="line">---</span><br></pre></td></tr></table></figure></li>
 </ul>
 
       </div>
