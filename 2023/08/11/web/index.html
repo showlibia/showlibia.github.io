@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+  <head>
+    <meta charset="utf8" />
+    <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+    <title>
+      
+        WEB Security | Hexo
+      
+    </title>
+    <meta name="description" content=""/>
+    <meta name="keywords" content=""/>
+    
+      <link rel="apple-touch-icon"
+            sizes="180x180"
+            href="/images/apple-touch-icon.png"/>
+    
+    
+      <link rel="icon"
+            type="image/png"
+            sizes="32x32"
+            href="/images/favicon-32x32.png"/>
+    
+    
+      <link rel="icon"
+            type="image/png"
+            sizes="16x16"
+            href="/images/favicon-16x16.png"/>
+    
+    
+      <link rel="mask-icon"
+            href="/images/logo.svg"
+            color=""/>
+    
+    
+    <link rel="stylesheet" type="text/css" href="/css/layout.css"/>
+    
+    
+  <link rel="stylesheet" type="text/css" href="/css/post.css"/>
+  
+
+  <meta name="generator" content="Hexo 5.4.2"></head>
+  <body>
+    <div class="head">
+      <div class="nav">
+        <a href="/" class="nav-logo">
+          <img alt="logo" height="60px" width="60px" src="/images/logo.svg" />
+        </a>
+        <input id="navBtn" type="checkbox"/>
+        <div class="nav-menu">
+          
+            
+              <a class="nav-menu-item" href="/cs">极客站</a>
+            
+              <a class="nav-menu-item" href="/hacker">黑客站</a>
+            
+              <a class="nav-menu-item" href="/my%20love">文史哲</a>
+            
+          
+        </div>
+        <label class="nav-btn" for="navBtn"></label>
+      </div>
+    </div>
+    <div class="body">
+      
+  <article class="post-content">
+    <div class="post-inner">
+      <div class="post-content__head">
+        <div class="post-title">WEB Security</div>
+        <div class="post-info">
+          
+  
+    <a href="/tags/CTF/" class="post-tag">#CTF</a>
+  
+
+
+          <span class="post-date">2023-08-11</span>
+        </div>
+      </div>
+      <div class="post-content__body">
+        
+          <div class="post-gallery">
+            
+          </div>
+        
+        <p>[toc]</p>
+<h2 id="0x00-信息整理来源博客"><a href="#0x00-信息整理来源博客" class="headerlink" title="0x00  信息整理来源博客"></a>0x00  信息整理来源博客</h2><p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/-sunny-/">sunny_忧郁小猫猫 - 博客园 (cnblogs.com)</a></p>
+<h3 id="0x01-基础知识"><a href="#0x01-基础知识" class="headerlink" title="0x01  基础知识"></a>0x01  基础知识</h3><ul>
+<li><p>Request请求数据包数据格式</p>
+<ol>
+<li><p>请求行：请求类型&#x2F;请求资源路径、协议的版本和类型 </p>
+</li>
+<li><p>请求头：一些键值对，浏览器与web服务器之间都可以发送，特定的某种含义 </p>
+</li>
+<li><p>空行：请求头与请求体之间用一个空行隔开； </p>
+</li>
+<li><p>请求体：要发送的数据(一般post提交会使用)；例：user&#x3D;123&amp;pass&#x3D;123</p>
+</li>
+</ol>
+</li>
+<li><pre><code>#请求行
+请求行由三个标记组成：请求方法、请求URL和HTTP版本，它们用空格分享。
+
+例如：GET /index.html HTTP/1.1
+
+HTTP 规划定义了8种可能的请求方法：
+
+GET：检索URL中标识资源的一个简单请求
+
+HEAD：与GET方法相同，服务器只返回状态行和头标，并不返回请求文档
+
+POST：服务器接受被写入客户端输出流中的数据的请求
+
+PUT：服务器保存请求数据作为指定URL新内容的请求
+
+DELETE：服务器删除URL中命令的资源的请求
+
+OPTIONS：关于服务器支持的请求方法信息的请求
+
+TRACE：web服务器反馈Http请求和其头标的请求
+
+CONNECT ：已文档化，但当前未实现的一个方法，预留做隧道处理
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">- ```</span><br><span class="line">  #请求头</span><br><span class="line">  </span><br><span class="line">  由关键字/值对组成，每行一对，关键字和值用冒号分享。请求头标通知服务器腾于客户端的功能和标识。</span><br><span class="line">  </span><br><span class="line">  HOST: 主机或域名地址</span><br><span class="line">  </span><br><span class="line">  Accept：指浏览器或其他客户可以接爱的MIME文件格式。Servlet可以根据它判断并返回适当的文件格式。</span><br><span class="line">  </span><br><span class="line">  User-Agent：是客户浏览器名称</span><br><span class="line">  </span><br><span class="line">  Host：对应网址URL中的Web名称和端口号。</span><br><span class="line">  </span><br><span class="line">  Accept-Langeuage：指出浏览器可以接受的语言种类，如en或en-us，指英语。</span><br><span class="line">  </span><br><span class="line">  connection：用来告诉服务器是否可以维持固定的HTTP连接。http是无连接的，HTTP/1.1使用Keep-Alive为默认值，这样，当浏览器需要多个文件时(比如一个HTML文件和相关的图形文件)，不需要每次都建立连接</span><br><span class="line">  </span><br><span class="line">  Cookie：浏览器用这个属性向服务器发送Cookie。Cookie是在浏览器中寄存的小型数据体，它可以记载和服务器相关的用户信息，也可以用来实现会话功能。</span><br><span class="line">  </span><br><span class="line">  Referer：表明产生请求的网页URL。如比从网页/icconcept/index.jsp中点击一个链接到网页/icwork/search，在向服务器发送的GET/icwork/search中的请求中，Referer是http://hostname:8080/icconcept/index.jsp。这个属性可以用来跟踪Web请求是从什么网站来的。</span><br><span class="line">  </span><br><span class="line">  Content-Type：用来表名request的内容类型。可以用HttpServletRequest的getContentType()方法取得。</span><br><span class="line">  </span><br><span class="line">  Accept-Charset：指出浏览器可以接受的字符编码。英文浏览器的默认值是ISO-8859-1.</span><br><span class="line">  </span><br><span class="line">  Accept-Encoding：指出浏览器可以接受的编码方式。编码方式不同于文件格式，它是为了压缩文件并加速文件传递速度。浏览器在接收到Web响应之后先解码，然后再检查文件格式。</span><br></pre></td></tr></table></figure>
+</code></pre>
+</li>
+<li><pre><code>#空行
+
+最后一个请求头标之后是空行，发送回车符和退行，通知服务器以下不再有头标。
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">- ```</span><br><span class="line">  #请求数据</span><br><span class="line">  </span><br><span class="line">  使用POST传送，最常使用的是 Content-Type 和 Content-Length 头标。</span><br></pre></td></tr></table></figure>
+</code></pre>
+</li>
+<li><pre><code>Response请求数据包数据格式
+一个响应由四个部分组成；状态行、响应头标、空行、响应数据。
+
+1.状态行：协议版本、数字形式的状态代码和状态描述，个元素之间以空格分隔
+
+2.响应头标：包含服务器类型、日期、长度、内容类型等
+
+3.空行：响应头与响应体之间用空行隔开
+
+4.响应数据：浏览器会将实体内容中的数据取出来，生成相应的页面
+
+HTTP响应码：
+
+1xx：信息，请求收到，继续处理
+
+2xx：成功，行为被成功地接受、理解和采纳
+
+3xx：重定向，为了完成请求，必须进一步执行的动作
+
+4xx：客户端错误
+
+5xx：服务器错误
+
+200 存在文件
+
+403 存在文件夹
+
+3xx 均可能存在
+
+404 不存在文件及文件夹
+
+500 均可能存在
+
+#响应头标
+
+像请求头标一样，它们指出服务器的功能，标识出响应数据的细节。
+
+#空行
+
+最后一个响应头标之后是一个空行，发送回车符和退行，表明服务器以下不再有头标。
+
+#响应数据
+
+HTML文档和图像等，也就是HTML本身。
+</code></pre>
+</li>
+</ul>
+<h3 id="0x02-BurpSuite使用"><a href="#0x02-BurpSuite使用" class="headerlink" title="0x02  BurpSuite使用"></a>0x02  BurpSuite使用</h3><h4 id="使用大全"><a href="#使用大全" class="headerlink" title="使用大全"></a>使用大全</h4><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_43543330/article/details/106723117"> BurpSuite使用大全（详解）_Alphabets26的博客-CSDN博客</a></p>
+<h4 id="mozhe-CTF题目解析"><a href="#mozhe-CTF题目解析" class="headerlink" title="mozhe CTF题目解析"></a>mozhe CTF题目解析</h4><ul>
+<li><p>改变Referer实现来源页伪造</p>
+</li>
+<li><p>使用burpsuite实现多次伪造ip（暴力破解）：首先查找php获取ip地址的方式，也就是 X-Forwarded-For，然后在数据包里面加上这行命令，对ip进行右键send to intruder，在右侧能看到add变量的选项，将attack type 修改为cluster bomb，然后将payloads的payload type修改为numbers，设置范围，再发送数据包，start attack，然后等待，即可。</p>
+</li>
+<li><p>改变User-Agent实现伪造浏览器信息</p>
+</li>
+<li><p>浏览器中发送数据包的方式GET和POST的区别：<a target="_blank" rel="noopener" href="https://www.jianshu.com/p/153ab4ee99dd">GET与POST的区别？ - 简书 (jianshu.com)</a></p>
+</li>
+</ul>
+<p>由于GET能发送的数据大小有限制，长度不足，所以会出现”Request-URL Too Long”的情况，这个时候可以利用burpsuite来修改GET为POST传输数据</p>
+<h3 id="0x03-搭建安全拓展"><a href="#0x03-搭建安全拓展" class="headerlink" title="0x03 搭建安全拓展"></a>0x03 搭建安全拓展</h3><h4 id="笔记"><a href="#笔记" class="headerlink" title="笔记"></a>笔记</h4><p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/-sunny-/p/15207299.html">第3天：基础入门-搭建安全拓展</a></p>
+<h4 id="web中间件漏洞"><a href="#web中间件漏洞" class="headerlink" title="web中间件漏洞"></a>web中间件漏洞</h4><p><a target="_blank" rel="noopener" href="https://www.lxhsec.com/2019/03/04/middleware/">Web中间件常见漏洞总结 | lyxhh (lxhsec.com)</a></p>
+<h4 id="基于中间件的靶场"><a href="#基于中间件的靶场" class="headerlink" title="基于中间件的靶场"></a>基于中间件的靶场</h4><p><a target="_blank" rel="noopener" href="https://vulhub.org/">vulhub</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/zovt/p/16337343.html">Vulhub靶场搭建教程 - Zovt - 博客园 (cnblogs.com)</a></p>
+<h3 id="0x04-WEB-源码拓展"><a href="#0x04-WEB-源码拓展" class="headerlink" title="0x04 WEB 源码拓展"></a>0x04 WEB 源码拓展</h3><p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/-sunny-/p/15219341.html">第4天：基础入门-WEB源码拓展 </a></p>
+<p><a target="_blank" rel="noopener" href="https://websec.readthedocs.io/zh/latest/language/index.html">5. 语言与框架 — Web安全学习笔记 1.0 文档 </a></p>
+<ul>
+<li>源码获取：搜索、淘宝咸鱼、第三方源码站（例如菜鸟源码）</li>
+</ul>
+<h3 id="0x05-系统及数据库"><a href="#0x05-系统及数据库" class="headerlink" title="0x05 系统及数据库"></a>0x05 系统及数据库</h3><h4 id="判断服务器操作系统"><a href="#判断服务器操作系统" class="headerlink" title="判断服务器操作系统"></a>判断服务器操作系统</h4><p><a target="_blank" rel="noopener" href="https://nmap.org/man/zh/index.html">Nmap参考指南(Man Page)</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/php09/p/10530057.html">https://www.cnblogs.com/php09/p/10530057.html</a></p>
+
+      </div>
+    </div>
+  </article>
+  <div class="post__foot">
+    
+    <div class="post-nav">
+  
+    <a class="post-nav-item-left" href="/2023/08/12/hello-world/">
+      <div class="text-align">
+        <svg t="1670570876164"
+             class="icon"
+             viewBox="0 0 1024 1024"
+             width="16"
+             height="16">
+          <path d="M384 512L731.733333 202.666667c17.066667-14.933333 19.2-42.666667 4.266667-59.733334-14.933333-17.066667-42.666667-19.2-59.733333-4.266666l-384 341.333333c-10.666667 8.533333-14.933333 19.2-14.933334 32s4.266667 23.466667 14.933334 32l384 341.333333c8.533333 6.4 19.2 10.666667 27.733333 10.666667 12.8 0 23.466667-4.266667 32-14.933333 14.933333-17.066667 14.933333-44.8-4.266667-59.733334L384 512z" p-id="14596"/>
+        </svg>
+        <span class="text-small">上一篇</span>
+      </div>
+      <div>Hello World</div>
+    </a>
+  
+  <div class="vhr"></div>
+  
+    <a class="post-nav-item-right" href="/2023/06/18/%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80/">
+      <div class="text-align">
+        <span class="text-small">下一篇</span>
+        <svg t="1670570876164"
+             class="icon"
+             viewBox="0 0 1024 1024"
+             transform="scale(-1,-1)"
+             width="16"
+             height="16">
+          <path d="M384 512L731.733333 202.666667c17.066667-14.933333 19.2-42.666667 4.266667-59.733334-14.933333-17.066667-42.666667-19.2-59.733333-4.266666l-384 341.333333c-10.666667 8.533333-14.933333 19.2-14.933334 32s4.266667 23.466667 14.933334 32l384 341.333333c8.533333 6.4 19.2 10.666667 27.733333 10.666667 12.8 0 23.466667-4.266667 32-14.933333 14.933333-17.066667 14.933333-44.8-4.266667-59.733334L384 512z" p-id="14596"/>
+        </svg>
+      </div>
+      汇编语言
+    </a>
+  
+</div>
+
+    
+    
+  </div>
+
+    </div>
+    <div class="foot">
+      <div class="foot-inner">
+        <div class="foot__head">
+          
+            <div class="foot-line">
+              <div class="matts">待</div><div class="matts">到</div><div class="matts">秋</div><div class="matts">来</div><div class="matts">九</div><div class="matts">月</div><div class="matts">八</div>
+            </div>
+          
+            <div class="foot-line">
+              <div class="matts">我</div><div class="matts">花</div><div class="matts">开</div><div class="matts">尽</div><div class="matts">百</div><div class="matts">花</div><div class="matts">杀</div>
+            </div>
+          
+        </div>
+        <div class="foot__body">
+          
+            <div class="foot-item">
+              <div class="foot-item__head">朋友</div>
+              <div class="foot-item__body">
+                
+                  <div class="text">
+                    <img alt="link"
+                         height="20px"
+                         width="20px"
+                         src="/images/icon/icon-link.svg"/>
+                    <a class="foot-link" target="_blank" rel="noopener" href="https://github.com/hooozen/hexo-theme-tranquility">Theme Tranquility</a>
+                  </div>
+                
+                <div class="text">
+                  <img alt="link"
+                       height="20px"
+                       width="20px"
+                       src="/images/icon/icon-link+.svg"/>
+                  <a class="foot-link"
+                     href="mailto:example@email.com?subject=%E7%94%B3%E8%AF%B7%20Hozen.site%20%E7%9A%84%E5%8F%8B%E9%93%BE%E4%BD%8D%E7%BD%AE">
+                  申请友链</a>
+                </div>
+              </div>
+            </div>
+          
+          
+            <div class="foot-item">
+              <div class="foot-item__head">账号</div>
+              <div class="foot-item__body">
+                
+                  <div class="text">
+                    <img alt="link" height="20px" width="20px" src="/images/logo-github.svg"/>
+                    <a class="foot-link" target="_blank" rel="noopener" href="https://github.com/showlibia">github</a>
+                  </div>
+                
+                  <div class="text">
+                    <img alt="link" height="20px" width="20px" src="/images/logo-wx.svg"/>
+                    <a class="foot-link" target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s?__biz=MzI3NzQ4NDkzNg==&mid=2247484469&idx=1&sn=8a442bb67397f52cce5c38c3f9b41e36&chksm=eb64c0d2dc1349c40d2e1bb55615ae28b3f2951be22f00717b9ade98c851082e42dc666ab45d#rd">微信公众号</a>
+                  </div>
+                
+                  <div class="text">
+                    <img alt="link" height="20px" width="20px" src="/images/logo-zh.svg"/>
+                    <a class="foot-link" target="_blank" rel="noopener" href="https://www.zhihu.com/">知乎</a>
+                  </div>
+                
+              </div>
+            </div>
+          
+          <div class="foot-item">
+            <div class="foot-item__head">联系</div>
+            <div class="foot-item__body">
+              <div class="text">
+                <img alt="link"
+                     height="20px"
+                     width="20px"
+                     src="/images/icon/icon-email.svg"/>
+                <a class="foot-link" href="mailto:example@email.com">example@email.com</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="copyright">
+          <a href="http://example.com">Hexo</a> &nbsp;|&nbsp;由&nbsp;<a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>&nbsp;及&nbsp;
+          <svg width="20" height="20" viewBox="0 0 725 725">
+            <path fill-rule="evenodd" fill="rgb(221, 221, 221)"
+            d="M145.870,236.632 L396.955,103.578 L431.292,419.44 L156.600,522.53 L145.870,236.632 Z" />
+            <path fill-rule="evenodd" fill="rgb(159, 159, 159)"
+            d="M396.955,103.578 L564.345,234.486 L611.558,513.469 L431.292,419.44 L396.955,103.578 Z" />
+            <path fill-rule="evenodd" fill="rgb(0, 0, 0)"
+            d="M431.292,419.44 L611.558,513.469 L358.327,595.18 L156.600,522.53 L431.292,419.44 Z" />
+          </svg>
+          <a target="_blank" rel="noopener" href="https://github.com/hooozen/hexo-theme-tranquility">致远</a>&nbsp;驱动
+        </div>
+      </div>
+    </div>
+    
+    
+  
+
+  </body>
+</html>
