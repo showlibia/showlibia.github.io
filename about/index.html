@@ -5,7 +5,7 @@
 <ul>
 <li><p>npm node hexo 安装完成后出现类似command not found的问题，用Google搜索、在stackoverflow上找相关问题，都没能解决这个问题，最后尝试了csdn上的一个说法，即设置环境变量,在path下面加上npm node hexo等的路径，成功解决问题。<del>（多少有点zz了）</del><br>路径问题占据了我建站的绝大多数时间。</p>
 </li>
-<li><p>设置部署仓库和分支出现 “FATAL YAMLException: can not read a block mapping entry; a multiline key may not be an implicit key (107:14)” 的问题。这个问题是因我在更改hexo源码根目录下的_config.yml中的deploy部分直接复制粘贴引起的。参考下图，在repo:以及branch:的冒号后面要加上’ ‘空格。<br><img src="/9.png" alt="代码"></p>
+<li><p>设置部署仓库和分支出现 “FATAL YAMLException: can not read a block mapping entry; a multiline key may not be an implicit key (107:14)” 的问题。这个问题是因我在更改hexo源码根目录下的_config.yml中的deploy部分直接复制粘贴引起的。参考下图，在repo:以及branch:的冒号后面要加上’ ‘空格。<br><img src="https://oceanwang.top/personal-website-7/9.png" alt="代码"></p>
 </li>
 <li><p>目前尚未解决的问题。GitHub Actions自动部署，按照教程上传workflow文件到github上，但是目前还没成功，也没查原因。</p>
 </li>
