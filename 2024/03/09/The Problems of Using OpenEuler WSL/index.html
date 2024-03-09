@@ -1,0 +1,93 @@
+<!DOCTYPE html><html lang="en"><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="description" content=""><title>The Problems of Using OpenEuler WSL | Matrix's blog</title><link rel="stylesheet" type="text/css" href="/css/style.css?v=1.0.0"><link rel="stylesheet" type="text/css" href="//lib.baomitu.com/normalize/latest/normalize.min.css"><link rel="stylesheet" type="text/css" href="//lib.baomitu.com/pure/latest/pure-min.min.css"><link rel="stylesheet" type="text/css" href="//lib.baomitu.com/pure/latest/grids-responsive-min.min.css"><link rel="stylesheet" href="//lib.baomitu.com/font-awesome/4.7.0/css/font-awesome.min.css"><script type="text/javascript" src="//lib.baomitu.com/jquery/latest/jquery.min.js"></script><link rel="icon" mask="" sizes="any" href="/favicon.ico"><link rel="Shortcut Icon" type="image/x-icon" href="/favicon.ico"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="apple-touch-icon-precomposed" href="/apple-touch-icon.png"><script type="text/javascript" src="//lib.baomitu.com/clipboard.js/latest/clipboard.min.js"></script><script type="text/javascript" src="//lib.baomitu.com/toastr.js/latest/toastr.min.js"></script><link rel="stylesheet" href="//lib.baomitu.com/toastr.js/latest/toastr.min.css"><meta name="generator" content="Hexo 5.4.2"></head><body><div class="body_container"><div id="header"><div class="site-name"><h1 class="hidden">The Problems of Using OpenEuler WSL</h1><a id="logo" href="/.">Matrix's blog</a><p class="description"></p></div><div id="nav-menu"><a class="current" href="/."><i class="fa fa-home"> 首页</i></a><a href="/archives/"><i class="fa fa-archive"> 目录</i></a><a href="/tags/"><i class="fa fa-tags"> 标签</i></a><a href="/about/"><i class="fa fa-user"> 关于</i></a></div></div><div class="pure-g" id="layout"><div class="pure-u-1 pure-u-md-3-4"><div class="content_container"><div class="post"><h1 class="post-title">The Problems of Using OpenEuler WSL</h1><div class="post-meta">2024-03-09<span> | </span><span class="category"><a href="/categories/cs/">cs</a></span></div><div class="clear"><div class="toc-article" id="toc"><div class="toc-title">Contents</div><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#The-Problems-of-Using-OpenEuler-WSL"><span class="toc-number">1.</span> <span class="toc-text">The Problems of Using OpenEuler WSL</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%86%85%E6%A0%B8%E9%97%AE%E9%A2%98"><span class="toc-number">1.1.</span> <span class="toc-text">内核问题</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%97%AE%E9%A2%98%E6%8F%8F%E8%BF%B0"><span class="toc-number">1.1.1.</span> <span class="toc-text">问题描述</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A7%A3%E5%86%B3%E6%AD%A5%E9%AA%A4"><span class="toc-number">1.1.2.</span> <span class="toc-text">解决步骤</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-%E4%B8%8B%E8%BD%BD%E5%AF%B9%E5%BA%94%E7%89%88%E6%9C%AC%E5%86%85%E6%A0%B8%E4%BB%A3%E7%A0%81"><span class="toc-number">1.1.2.1.</span> <span class="toc-text">1.下载对应版本内核代码</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-%E7%BC%96%E8%AF%91%E5%92%8C%E5%AE%89%E8%A3%85"><span class="toc-number">1.1.2.2.</span> <span class="toc-text">2.编译和安装</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#insmod%E9%97%AE%E9%A2%98"><span class="toc-number">1.1.3.</span> <span class="toc-text">insmod问题</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-%E9%97%AE%E9%A2%98%E6%8F%8F%E8%BF%B0"><span class="toc-number">1.1.3.1.</span> <span class="toc-text">1.问题描述</span></a></li></ol></li></ol></li></ol></li></ol></div></div><div class="post-content"><h1 id="The-Problems-of-Using-OpenEuler-WSL"><a href="#The-Problems-of-Using-OpenEuler-WSL" class="headerlink" title="The Problems of Using OpenEuler WSL"></a>The Problems of Using OpenEuler WSL</h1><p>记录一下在OS课上使用OpenEuler WSL遇到的坑</p>
+<p>OpenEuler 官方下载WSL系统的脚本十分炸裂，能在x86架构的机器上安装MIPS架构的结果，建议避雷，使用微软商店的软件包下载</p>
+<p>本次实验的要求：</p>
+<blockquote>
+<p>1.向OpenEuler系统，或者OpenKylin系统中，增加一个系统<br>调用&#x2F;或内核模块，鼓励程序逻辑的多样化<br>2.撰写一个应用测试程序调用该系统调用&#x2F;测试该内核模块<br>3.使用trace&#x2F;ptrace&#x2F;strace,或类似的系统跟踪工具来对该测试<br>程序进行跟踪调试</p>
+</blockquote>
+<h2 id="内核问题"><a href="#内核问题" class="headerlink" title="内核问题"></a>内核问题</h2><h3 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a>问题描述</h3><p>实验环境是在WSL2下使用OpenEuler，CentOS套壳</p>
+<p>借鉴了一些网络上的代码后，对源码进行编译，下面是Makefile文件内容</p>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">obj-m:=syscall.o</span></span><br><span class="line">PWD:= <span class="variable">$(<span class="built_in">shell</span> pwd)</span></span><br><span class="line">KERNELDIR:= /lib/modules/<span class="variable">$(<span class="built_in">shell</span> uname -r)</span>/build</span><br><span class="line">EXTRA_CFLAGS= -O0</span><br><span class="line"></span><br><span class="line"><span class="section">all:</span></span><br><span class="line">	make -C <span class="variable">$(KERNELDIR)</span>  M=<span class="variable">$(PWD)</span> modules</span><br><span class="line"><span class="section">clean:</span></span><br><span class="line">	make -C <span class="variable">$(KERNELDIR)</span> M=<span class="variable">$(PWD)</span> clean</span><br></pre></td></tr></table></figure>
+
+<p>make后报错：</p>
+<blockquote>
+<p>&#x2F;lib&#x2F;modules&#x2F;5.15.146.1-microsoft-standard-WSL2&#x2F;build: No such file or directory. </p>
+</blockquote>
+<p>搜索后可知，WSL2的内核是修改过的，无法使用CentOS上游的内核头文件和modules文件，因此，我们需要手动编译并安装一个版本。</p>
+<h3 id="解决步骤"><a href="#解决步骤" class="headerlink" title="解决步骤"></a>解决步骤</h3><h4 id="1-下载对应版本内核代码"><a href="#1-下载对应版本内核代码" class="headerlink" title="1.下载对应版本内核代码"></a>1.下载对应版本内核代码</h4><p>首先查看系统内核版本</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">uname</span> -r</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>5.15.146.1-microsoft-standard-WSL2</p>
+</blockquote>
+<p>到<a target="_blank" rel="noopener" href="https://github.com/microsoft/WSL2-Linux-Kerne">WSL git仓库</a>，找到对应的release</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git clone https://github.com/microsoft/WSL2-Linux-Kernel</span><br></pre></td></tr></table></figure>
+
+<h4 id="2-编译和安装"><a href="#2-编译和安装" class="headerlink" title="2.编译和安装"></a>2.编译和安装</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> WSL2-Linux-Kernel</span><br><span class="line">LOCALVERSION= make KCONFIG_CONFIG=Microsoft/config-wsl -j8</span><br><span class="line">sudo LOCALVERSION= make KCONFIG_CONFIG=Microsoft/config-wsl modules_install -j8</span><br></pre></td></tr></table></figure>
+
+<p>这个阶段会遇到较多报错，由于我使用的是CentOS和网络上大多资料使用的Ubuntu不同，因此需要安装的依赖也不一样，这里就直接放出一部分报错和安装的全部命令</p>
+<blockquote>
+<p>fatal error: openssl&#x2F;bio.h: No such file or directory<br>fatal error: libelf.h: No such file or directory<br>BTF: .tmp_vmlinux.btf: pahole (pahole) is not available Failed to generate BTF for vmlinux<br>Try to disable CONFIG_DEBUG_INFO_BTF<br>Warning: ‘make modules_install’ requires depmod. Please install it.</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo dnf install bison flex openssl-devel elfutils-libelf-devel dwarves kmod</span><br></pre></td></tr></table></figure>
+
+<p>安装完这些以后，再重新运行上面的指令，这个时候就能发现没有问题了。</p>
+<h3 id="insmod问题"><a href="#insmod问题" class="headerlink" title="insmod问题"></a>insmod问题</h3><h4 id="1-问题描述"><a href="#1-问题描述" class="headerlink" title="1.问题描述"></a>1.问题描述</h4><p>当编译成功后，需要加载内核模块</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo insmod randomizer.ko</span><br></pre></td></tr></table></figure>
+
+<p>这个时候终端抛出问题：</p>
+<blockquote>
+<p>ERROR: could not insert module mymodule.ko: Invalid parameters</p>
+</blockquote>
+<p>但是一番搜索后发现根本没有解决我的问题的方法，这时候查看日志</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dmesg | <span class="built_in">tail</span></span><br></pre></td></tr></table></figure>
+
+<p>可以发现出现了这样的错误：</p>
+<blockquote>
+<p>BPF:[xxxxx] Invalid name_offset:xxxxxx failed to validate module [mymodule] BTF: -22</p>
+</blockquote>
+<p>在一篇博客中有这样的记录：</p>
+<blockquote>
+<p>“rocky linux 9上面，内核编译设置默认打开了DEBUG_INFO_BTF_MODULES，这样所有模块里面都带有BTF信息。</p>
+<p>运行时内核的BTF这个机制，如果模块缺少BTF信息（ELF的BTF段）那可以加载成功，但如果BTF的版本不匹配就拒绝加载。 使用源码自己编译内核时，虽然内核源码是一样的但生成的BTF还是不匹配的。 这样自己使用内核源码目录（ 不是系统的&#x2F;lib&#x2F;modules&#x2F;<code>uname -r</code>&#x2F;build ） 编译一个模块出来， 在rocky linux的官方内核系统里面就没法使用了， modprobe 会返回“ bpf invalid name btf -22”错误。 但通常编译模块时，如果make bzImage 之后make clean 删掉vmlinux 后 编译模块时找不到vmlinux就不会BTF信息，通常还是可以正常使用的。 但有的模块使用了 register_btf_kfunc_id_set 函数 向系统注册BTF函数的，这种一定要求BTF 信息的就不行了。</p>
+<p>反正这个BTF这个东西，自己编译第三方模块时最好就不要把BTF编译进去了，不然不同的内核小版本都没法兼容，即使同样的内核源码也是不行的。”</p>
+</blockquote>
+<p>可以看到其实是BTF的问题，联系到上面出现的一个报错：</p>
+<blockquote>
+<p>BTF: .tmp_vmlinux.btf: pahole (pahole) is not available Failed to generate BTF for vmlinux<br>Try to disable CONFIG_DEBUG_INFO_BTF<br>Warning: ‘make modules_install’ requires depmod. Please install it.</p>
+</blockquote>
+<p>我们就要在这上面下文章，一开始，我们借助下载dwarves解决了这个报错</p>
+<p>而在这里，我们就需要去disable CONFIG_DEBUG_INFO_BTF</p>
+<p>因此引出一种可行办法，也就是：</p>
+<blockquote>
+<p>make menuconfig </p>
+<p>配置内核，生成.config文件</p>
+</blockquote>
+<p>然后在.config文件中修改</p>
+<blockquote>
+<p>CONFIG_DEBUG_INFO_BTF&#x3D;n</p>
+</blockquote>
+<p>但是由于一些奇怪的原因，我无法使用 make menuconfig，于是，<del>我借助了另一种思路</del></p>
+<blockquote>
+<p> 删掉vmlinux 后 编译模块时找不到vmlinux就不会BTF信息</p>
+</blockquote>
+<p>实际上是阴差阳错地，我在WSL2-Linux-Kernel目录下执行make clean，清除了所有*.o文件，然后make重新编译了一次，这时候神奇的事情发生了，尽管我仍然没有.config文件，但是当我使用命令</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo insmod randomizer.ko</span><br></pre></td></tr></table></figure>
+
+<p>并没有任何报错出现，这时候再用</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dmesg | <span class="built_in">tail</span></span><br></pre></td></tr></table></figure>
+
+<p>查看内核日志和分配给模块的主设备号时</p>
+<blockquote>
+<p>BPF:[xxxxx] Invalid name_offset:xxxxxx failed to validate module [mymodule] BTF: -22</p>
+<p>module has been loaded: xxx</p>
+</blockquote>
+<p>BTF的问题没有消失，但是我们绕开了</p>
+<p>接着创建设备文件</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo mknod /dev/mymodule c xxx 0</span><br></pre></td></tr></table></figure>
+
+<p>运行测试程序就可以发现成功了。</p>
+<p>参考资料：</p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_45668903/article/details/128019077">WSL 运行make提示&#x2F;lib&#x2F;modules&#x2F;xxx&#x2F;build: No such file or directory. Stop.错误解决办法</a></p>
+<p>[Btf版本不匹配导致内核模块加载失败的问题](<a target="_blank" rel="noopener" href="https://gmd20.github.io/blog/BTF%E7%89%88%E6%9C%AC%E4%B8%8D%E5%8C%B9%E9%85%8D%E5%AF%BC%E8%87%B4%E5%86%85%E6%A0%B8%E6%A8%A1%E5%9D%97%E5%8A%A0%E8%BD%BD%E5%A4%B1%E8%B4%A5%E7%9A%84%E9%97%AE%E9%A2%98/">Btf版本不匹配导致内核模块加载失败的问题 (gmd20.github.io)</a>)</p>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/xia-dong/p/13553787.html"><a target="_blank" rel="noopener" href="https://www.cnblogs.com/xia-dong/p/13553787.html">kernel 源码升级</a></a></p>
+</div><div class="tags"><ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Linux%E5%86%85%E6%A0%B8/" rel="tag">Linux内核</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/OS/" rel="tag">OS</a></li></ul></div><div class="post-nav"><a class="next" href="/2024/01/01/2023/">2023年小记</a></div></div></div></div><div class="pure-u-1-4 hidden_mid_and_down"><div id="sidebar"><div class="widget"><form class="search-form" action="//www.google.com/search" method="get" accept-charset="utf-8" target="_blank"><input type="text" name="q" maxlength="20" placeholder="Search"/><input type="hidden" name="sitesearch" value="http://example.com"/></form></div><div class="widget"><div class="author-info"><a class="info-avatar" href="/about/" title="About"><img class="nofancybox" src="/img/zjm.jpeg"/></a><p>To be a better man.</p><a class="info-icon" href="https://github.com/showlibia" title="Github" target="_blank" style="margin-inline:5px"> <i class="fa fa-github-square" style="margin-inline:5px"></i></a></div></div><div class="widget"><div class="widget-title"><i class="fa fa-folder-o"> Categories</i></div><ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/cs/">cs</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/hacker/">hacker</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/my-love/">my love</a></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-star-o"> Tags</i></div><div class="tagcloud"><a href="/tags/%E6%9D%82%E8%AE%B0/" style="font-size: 15px;">杂记</a> <a href="/tags/C-language/" style="font-size: 15px;">C language</a> <a href="/tags/coding/" style="font-size: 15px;">coding</a> <a href="/tags/csapp/" style="font-size: 15px;">csapp</a> <a href="/tags/datastructure/" style="font-size: 15px;">datastructure</a> <a href="/tags/%E5%93%B2%E5%AD%A6/" style="font-size: 15px;">哲学</a> <a href="/tags/%E9%A9%AC%E5%88%97%E6%AF%9B/" style="font-size: 15px;">马列毛</a> <a href="/tags/CTF/" style="font-size: 15px;">CTF</a> <a href="/tags/%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80/" style="font-size: 15px;">汇编语言</a> <a href="/tags/Linux%E5%86%85%E6%A0%B8/" style="font-size: 15px;">Linux内核</a> <a href="/tags/OS/" style="font-size: 15px;">OS</a></div></div><div class="widget"><div class="widget-title"><i class="fa fa-file-o"> Recent</i></div><ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2024/03/09/The%20Problems%20of%20Using%20OpenEuler%20WSL/">The Problems of Using OpenEuler WSL</a></li><li class="post-list-item"><a class="post-list-link" href="/2024/01/01/2023/">2023年小记</a></li><li class="post-list-item"><a class="post-list-link" href="/2023/08/11/web/">WEB Security</a></li><li class="post-list-item"><a class="post-list-link" href="/2023/06/18/%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80/">汇编语言</a></li><li class="post-list-item"><a class="post-list-link" href="/2023/05/11/%E3%80%8A%E5%B8%9D%E5%9B%BD%E4%B8%BB%E4%B9%89%E6%98%AF%E8%B5%84%E6%9C%AC%E4%B8%BB%E4%B9%89%E7%9A%84%E6%9C%80%E9%AB%98%E9%98%B6%E6%AE%B5%E3%80%8B/">《帝国主义是资本主义的最高阶段》</a></li><li class="post-list-item"><a class="post-list-link" href="/2023/04/06/%E3%80%8A%E5%9B%BD%E5%AE%B6%E4%B8%8E%E9%9D%A9%E5%91%BD%E3%80%8B%20%E5%88%97%E5%AE%81/">《国家与革命》</a></li><li class="post-list-item"><a class="post-list-link" href="/2023/04/06/first/">建站小记</a></li><li class="post-list-item"><a class="post-list-link" href="/2023/04/06/%E3%80%8A%E5%93%A5%E8%BE%BE%E7%BA%B2%E9%A2%86%E6%89%B9%E5%88%A4%E3%80%8B/">《哥达纲领批判》</a></li><li class="post-list-item"><a class="post-list-link" href="/2023/04/06/%E3%80%8A%E5%BE%B7%E6%84%8F%E5%BF%97%E6%84%8F%E8%AF%86%E5%BD%A2%E6%80%81%EF%BC%88%E8%8A%82%E9%80%89%EF%BC%89%E3%80%8B%E9%A9%AC%E5%85%8B%E6%80%9D%20%E6%81%A9%E6%A0%BC%E6%96%AF/">《德意志意识形态（节选）》</a></li><li class="post-list-item"><a class="post-list-link" href="/2023/04/06/%E6%B3%95%E5%BE%B7%E5%86%9C%E6%B0%91%E9%97%AE%E9%A2%98/">《法德农民问题》</a></li></ul></div></div></div><div class="pure-u-1 pure-u-md-3-4"><div id="footer">Copyright © 2024 <a href="/." rel="nofollow">Matrix's blog.</a> Powered by<a rel="nofollow" target="_blank" href="https://hexo.io"> Hexo.</a><a rel="nofollow" target="_blank" href="https://github.com/tufu9441/maupassant-hexo"> Theme</a> by<a rel="nofollow" target="_blank" href="https://github.com/pagecho"> Cho.</a></div></div></div><a class="show" id="rocket" href="#top"></a><script type="text/javascript" src="/js/totop.js?v=1.0.0" async></script><script type="text/javascript" src="//lib.baomitu.com/fancybox/latest/jquery.fancybox.min.js"></script><script type="text/javascript" src="/js/fancybox.js?v=1.0.0"></script><link rel="stylesheet" type="text/css" href="//lib.baomitu.com/fancybox/latest/jquery.fancybox.min.css"><script type="text/javascript" src="/js/copycode.js?v=1.0.0" successtext="Copy Successed!"></script><link rel="stylesheet" type="text/css" href="/css/copycode.css?v=1.0.0"><script type="text/javascript" src="/js/codeblock-resizer.js?v=1.0.0"></script><script type="text/javascript" src="/js/smartresize.js?v=1.0.0"></script></div></body></html>
